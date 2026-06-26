@@ -1,0 +1,14 @@
+{
+  "name": "logging-middleware",
+  "version": "1.0.0",
+  "description": "Reusable logging middleware for AffordMed campus evaluation",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "test": "node src/test.js"
+  },
+  "license": "GPL-3.0"
+}
