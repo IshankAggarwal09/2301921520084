@@ -1,86 +1,97 @@
-import { useState } from "react";
 import {
-  Alert,
-  Badge,
   Box,
-  CircularProgress,
-  Divider,
-  Pagination,
-  Stack,
   Typography,
+  CircularProgress,
+  Pagination,
 } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 
-import { NotificationCard } from "../components/NotificationCard";
-import { NotificationFilter } from "../components/NotificationFilter";
-import { useNotifications } from "../hooks/useNotifications";
+import { useEffect, useState } from "react";
 
-export function NotificationsPage() {
-  const [filter, setFilter] = useState();
-  const [page, setPage] = useState("1");
+import NotificationFilter from "../components/NotificationFilter";
+import NotificationCard from "../components/NotificationCard";
 
-  const { notifications, totalPages, loading, error } = useNotifications();
+import useNotifications from "../hooks/useNotifications";
 
-  const unreadCount = 2;
+export default function NotificationsPage() {
+  const {
+    notifications,
+    loading,
+    error,
+    loadNotifications,
+    setNotifications,
+  } = useNotifications();
 
-  const handleFilterChange = (newFilter) => {
+  const [page, setPage] = useState(1);
+  const [type, setType] = useState("");
 
+  useEffect(() => {
+    loadNotifications(page, 10, type);
+  }, [page, type]);
+
+  const toggleRead = (id) => {
+    setNotifications((prev) =>
+      prev.map((item) =>
+        item.ID === id
+          ? {
+              ...item,
+              read: !item.read,
+            }
+          : item
+      )
+    );
   };
 
-  const handlePageChange = (_, newPage) => {
+  if (loading)
+    return (
+      <Box textAlign="center" mt={8}>
+        <CircularProgress />
+      </Box>
+    );
 
-  };
+  if (error)
+    return (
+      <Typography color="error">
+        {error}
+      </Typography>
+    );
 
   return (
-    <Box sx={{ maxWidth: 720, mx: "auto", px: 2, py: 4 }}>
-      <Stack direction="row" alignItems="center" spacing={1.5} mb={3}>
-        <Badge badgeContent={unreadCount} color="primary" max={99}>
-          <NotificationsIcon sx={{ fontSize: 28 }} />
-        </Badge>
-        <Typography variant="h5" fontWeight={700}>
-          Notifications
-        </Typography>
-      </Stack>
+    <Box sx={{ p: 4 }}>
 
-      <Divider sx={{ mb: 3 }} />
+      <Typography
+        variant="h4"
+        mb={3}
+      >
+        All Notifications
+      </Typography>
 
-      <Box sx={{ marginBottom: 3 }}>
-        <NotificationFilter value={filter} onChange={handleFilterChange} />
-      </Box>
+      <NotificationFilter
+        value={type}
+        onChange={(value) => {
+          setPage(1);
+          setType(value);
+        }}
+      />
 
-      {true && (
-        <Box display="flex" justifyContent="center" py={6}>
-          <CircularProgress />
-        </Box>
-      )}
+      {notifications.map((notification) => (
+        <NotificationCard
+          key={notification.ID}
+          notification={notification}
+          onClick={() => toggleRead(notification.ID)}
+        />
+      ))}
 
-      {!loading && error && (
-        <Alert severity="error">Failed to load notifications: {error}</Alert>
-      )}
+      <Pagination
+        page={page}
+        count={10}
+        onChange={(e, value) => setPage(value)}
+        sx={{
+          mt: 3,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      />
 
-      {loading && !error && notifications.length == "0" && (
-        <Alert severity="info">Something message</Alert>
-      )}
-
-      {loading && !error && notifications.length > 0 && (
-        <Stack spacing={1.5}>
-          {notifications.map((n) => (
-            <></>
-          ))}
-        </Stack>
-      )}
-
-      {!loading && (
-        <Box display="flex" justifyContent="center" mt={4}>
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={handlePageChange}
-            color="primary"
-            shape="rounded"
-          />
-        </Box>
-      )}
     </Box>
   );
 }
