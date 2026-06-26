@@ -77,8 +77,6 @@ Campus-Evaluation-FS/
 
 ## 1️⃣ API Testing (Postman)
 
-> Protected Notification API tested successfully using JWT Authentication.
-
 <p align="center">
 <img src="./images/postman.png" width="900">
 </p>
@@ -86,8 +84,6 @@ Campus-Evaluation-FS/
 ---
 
 ## 2️⃣ Frontend Output – All Notifications
-
-> Displays all notifications fetched from the API.
 
 <p align="center">
 <img src="./images/output-1.png" width="900">
@@ -97,8 +93,6 @@ Campus-Evaluation-FS/
 
 ## 3️⃣ Frontend Output – Priority Notifications
 
-> Priority Inbox displaying important notifications.
-
 <p align="center">
 <img src="./images/output-2.png" width="900">
 </p>
@@ -107,8 +101,6 @@ Campus-Evaluation-FS/
 
 ## 4️⃣ Logging Middleware Implementation
 
-> Core logging middleware implementation.
-
 <p align="center">
 <img src="./images/code1.png" width="900">
 </p>
@@ -116,8 +108,6 @@ Campus-Evaluation-FS/
 ---
 
 ## 5️⃣ Priority Inbox Implementation
-
-> Priority notification logic implementation.
 
 <p align="center">
 <img src="./images/code2.png" width="900">
